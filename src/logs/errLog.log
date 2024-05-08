@@ -1,0 +1,16 @@
+20240126	12:34:54	acaf2d82-4b30-49c7-b580-6cff5dc0fd55	MongoServerError: E11000 duplicate key error collection: SamsDB.students index: firstname_1 dup key: { firstname: "Eniola" }	POST	/register/students	undefined
+20240504	07:19:45	5be29f5b-7127-46a7-975e-4818b15f646a	ReferenceError: universityCode is not defined	POST	/register/lecturers	undefined
+20240504	07:20:20	9377cbe1-91c8-4130-bf41-146c12500d91	ReferenceError: universityCode is not defined	POST	/register/lecturers	undefined
+20240504	07:22:27	52520ba2-1dd4-4b4e-8b1c-c266c424905b	MongoServerError: E11000 duplicate key error collection: test.lecturers index: lastname_1 dup key: { lastname: "Doe" }	POST	/register/lecturers	undefined
+20240504	07:22:54	a7ecd705-126c-4c21-a819-26dde0ba01ce	MongoServerError: E11000 duplicate key error collection: test.lecturers index: lastname_1 dup key: { lastname: "Doe" }	POST	/register/lecturers	undefined
+20240504	07:25:07	db7e64fe-d78c-4b47-8d9a-0a6f7ffb6c0d	MongoServerError: E11000 duplicate key error collection: test.lecturers index: firstname_1 dup key: { firstname: "Jane" }	POST	/register/lecturers	undefined
+20240504	07:42:28	ee3a0dfc-ef1b-43d9-b536-81f4fe5749d2	SyntaxError: Expected double-quoted property name in JSON at position 205	GET	/register/lecturers	undefined
+20240504	07:54:47	23b92891-06aa-47fb-a3f7-66785f3eb818	CastError: Cast to ObjectId failed for value "663644fbb7fe4fe4627307d" (type string) at path "_id" for model "Lecturer"	PATCH	/register/lecturers	undefined
+20240504	07:56:19	81235fde-2fa6-4231-9641-6928a55664dc	TypeError: Lecturer.save is not a function	PATCH	/register/lecturers	undefined
+20240507	10:29:05	c2b2933e-db91-4880-81ae-ce6e0b3b103a	TypeError: Cannot read properties of null (reading 'lastname')	GET	/attendance	undefined
+20240507	10:32:14	b3b28907-e4db-410b-87b2-2d911e9de3dc	TypeError: Cannot read properties of null (reading 'lastname')	GET	/attendance	undefined
+20240507	11:24:53	26514d21-1a43-4e76-ad4a-a6f0f227f6eb	SyntaxError: Expected double-quoted property name in JSON at position 157	POST	/register/lecturers	undefined
+20240507	11:25:53	12198718-cc16-4aa3-abef-8e9bc8edb4a4	SyntaxError: Expected ',' or '}' after property value in JSON at position 116	POST	/register/lecturers	undefined
+20240507	11:27:32	1f020d97-1e64-4604-98c5-c005919e467e	ReferenceError: students is not defined	POST	/attendance	undefined
+20240508	12:02:04	be621d05-c1e9-4f0d-af32-f811663562df	Error: Not allowed by CORS	GET	/register/lecturers	http://localhost:5173
+20240508	12:03:05	75c2e571-e66b-4986-bb7e-1b9002cfd004	Error: Not allowed by CORS	GET	/register/lecturers	http://localhost:5173

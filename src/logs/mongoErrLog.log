@@ -1,0 +1,9 @@
+20240125	20:47:51	0b9e4f45-0224-4b8d-a2d2-0e9c4823df9e	undefined: undefined	undefined	undefined
+20240125	20:48:15	9f8a56d6-fbc8-4a96-9f8c-56b6578390ff	undefined: undefined	undefined	undefined
+20240125	20:48:43	6c23888a-268c-4f2f-b417-8c811e6864cb	undefined: undefined	undefined	undefined
+20240126	12:12:26	81a9a649-bcd3-48b1-9395-34df36a18fdc	undefined: ECONNREFUSED	querySrv	_mongodb._tcp.cluster0.xdzli2q.mongodb.net
+20240504	07:30:03	91762e86-117d-450d-b6ea-1c7595226573	undefined: undefined	undefined	undefined
+20240504	10:56:52	8949dec7-729b-4d6d-96f9-99a9527e59bd	undefined: ETIMEOUT	querySrv	_mongodb._tcp.cluster0.xdzli2q.mongodb.net
+20240504	10:56:52	2a4eb3b7-890b-4c18-92d6-1ed7e72cea32	undefined: ETIMEOUT	querySrv	_mongodb._tcp.cluster0.xdzli2q.mongodb.net
+20240504	10:56:52	11389c9f-3e23-43bb-a9ef-55d674a914c5	undefined: ETIMEOUT	querySrv	_mongodb._tcp.cluster0.xdzli2q.mongodb.net
+20240507	14:45:30	881e0a8d-5195-43a7-80fa-8311bf867427	undefined: ECONNREFUSED	querySrv	_mongodb._tcp.cluster0.xdzli2q.mongodb.net
