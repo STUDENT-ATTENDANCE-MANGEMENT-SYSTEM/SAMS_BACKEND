@@ -1,20 +1,17 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema({
   firstname: {
     type: String,
     required: true,
-    unique: true,
   },
   lastname: {
     type: String,
     required: true,
-    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true,
   },
   password: {
     type: String,
@@ -28,6 +25,13 @@ const studentSchema = new mongoose.Schema({
     type: String,
     default: "Student",
   },
+  pin: {
+    type: String,
+  },
+  pic: {
+    type: String,
+    default: "https://res.cloudinary.com/dk5bvgq20/image/upload/v1629540437/placeholder-image_1_zc1w9o.png",
+  },
 });
 
-module.exports = mongoose.model("Student", studentSchema);
+export default mongoose.model("Student", studentSchema);

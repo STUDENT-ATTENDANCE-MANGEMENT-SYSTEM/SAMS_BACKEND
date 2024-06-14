@@ -1,12 +1,21 @@
-const express = require("express");
+import  express from "express";
 const router = express.Router();
-const studentController = require("../controllers/studentController");
+import studentController from "../controllers/studentController.js";
+import verifyJwt from "../middleware/verifyJwt.js";
 
+//router.use(verifyJwt);
 router
   .route("/")
   .get(studentController.getAllStudents)
   .post(studentController.createNewStudent)
   .patch(studentController.updateStudent)
-  .delete(studentController.deleteStudent);
+  .delete(studentController.deleteStudent)
+  
 
-module.exports = router;
+  router
+  .route("/student/:id")
+  .get(studentController.getStudentById)  
+router
+  .route("/addPin/:id")
+  .patch(studentController.updatePin);
+export default router;

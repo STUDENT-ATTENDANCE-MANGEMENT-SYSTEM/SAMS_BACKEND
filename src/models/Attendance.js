@@ -1,43 +1,43 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
-const studentSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    matricNumber: {
-      type: String,
-      required: true,
-    },
-    department: {
-      type: String,
-      required: true,
-    },
+const studentSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
   },
-  { _id: false }
-);
+  matricNumber: {
+    type: String,
+    unique: true,
+  },
+  department: {
+    type: String,
+    required: true,
+  },
+  student: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Student",
+  },
+});
 
 const attendanceSchema = new mongoose.Schema(
   {
     lecturer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Lecturer",
-      required: true,
     },
-    courseCode: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    courseName: {
-      type: String,
-      required: true,
-      unique: true,
+    attendance: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AttendanceTab"
     },
     students: [studentSchema],
   },
-  { timestamps: true }
+  { timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
 
-module.exports = mongoose.model("Attendance", attendanceSchema);
+attendanceSchema.virtual('present').get(function() {
+  return this.students.length;
+});
+export default mongoose.model("Attendance", attendanceSchema);

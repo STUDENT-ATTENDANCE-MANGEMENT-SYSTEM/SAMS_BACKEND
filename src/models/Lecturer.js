@@ -1,24 +1,24 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const lecturerSchema = new mongoose.Schema({
   firstname: {
     type: String,
     required: true,
-    unique: true,
   },
   lastname: {
     type: String,
     required: true,
-    unique: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true,
   },
   password: {
     type: String,
     required: true,
+  },
+  pic:{
+    type: String
   },
   institution: {
     type: String,
@@ -26,12 +26,11 @@ const lecturerSchema = new mongoose.Schema({
   },
   universityCode: {
     type: String,
-    required: true,
   },
   role: {
     type: String,
-    default: "  Lecturer",
+    default: "Lecturer",
   },
 });
 
-module.exports = mongoose.model("Lecturer", lecturerSchema);
+export default mongoose.model("Lecturer", lecturerSchema);

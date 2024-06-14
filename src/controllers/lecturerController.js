@@ -1,7 +1,7 @@
-const Lecturer = require("../models/Lecturer");
-const Attendance = require("../models/Attendance");
-const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
+import Lecturer from "../models/Lecturer.js";
+import Attendance from "../models/Attendance.js";
+import asyncHandler from "express-async-handler";
+import bcrypt from "bcrypt";
 
 const getAllLecturers = asyncHandler(async (req, res) => {
   const lecturer = await Lecturer.find().select("-password").lean();
@@ -14,7 +14,7 @@ const getAllLecturers = asyncHandler(async (req, res) => {
 });
 
 const createNewLecturer = asyncHandler(async (req, res) => {
-  const { firstname, lastname, email, password, institution, universityCode } =
+  const { firstname, lastname, email, password, institution, pic} =
     req.body;
 
   if (
@@ -23,7 +23,7 @@ const createNewLecturer = asyncHandler(async (req, res) => {
     !email ||
     !password ||
     !institution ||
-    !universityCode
+    !pic
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -44,7 +44,7 @@ const createNewLecturer = asyncHandler(async (req, res) => {
     email,
     password: hashedPwd,
     institution,
-    universityCode,
+    pic
   };
 
   const lecturer = await Lecturer.create(lecturerObject);
@@ -56,6 +56,43 @@ const createNewLecturer = asyncHandler(async (req, res) => {
   } else {
     res.status(400).json({ message: "Invalid Lecturer data received" });
   }
+});
+
+
+const getLecturerById = async (req, res) => {
+  try {
+    const lecturer = await Lecturer.findById(req.params.id);
+    if (!lecturer) {
+      return res.status(404).json({ message: 'Lecturer not found' });
+    }
+
+    res.json(lecturer);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const updateCode = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { universityCode } = req.body;
+ 
+  if (!id || !universityCode) {
+    return res.status(400).json({ message: "Both id and university code are required" });
+  }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid id' });
+  }
+  const lecturer = await Lecturer.findByIdAndUpdate(
+    id, // find a document with this id
+    { universityCode }, // add pin to the document
+    { new: true } // options
+  );
+
+  if (!lecturer) {
+    return res.status(404).json({ message: `Lecturer with id ${id} not found` });
+  }
+
+  res.json(lecturer);
 });
 
 const updateLecturer = asyncHandler(async (req, res) => {
@@ -130,10 +167,11 @@ const deleteLecturer = asyncHandler(async (req, res) => {
 
   res.json(reply);
 });
- 
-module.exports = {
+export default {
   getAllLecturers,
+  getLecturerById,
   createNewLecturer,
   updateLecturer,
+  updateCode,
   deleteLecturer,
 };

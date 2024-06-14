@@ -1,6 +1,6 @@
-const Attendance = require("../models/Attendance");
-const Lecturer = require("../models/Lecturer");
-const asyncHandler = require("express-async-handler");
+import Attendance from "../models/Attendance.js";
+import Lecturer from "../models/Lecturer.js";
+import asyncHandler from "express-async-handler";
 
 // @desc Get all attendances
 // @route GET /attendances
@@ -78,21 +78,12 @@ const updateAttendance = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: "Attendance not found" });
   }
 
-  // Check for duplicate courseCode
-  const duplicate = await Attendance.findOne({ courseCode })
-    .collation({ locale: "en", strength: 2 })
-    .lean()
-    .exec();
-
-  // Allow renaming of the original attendance
-  if (duplicate && duplicate?._id.toString() !== id) {
-    return res.status(409).json({ message: "Duplicate attendance courseCode" });
-  }
 
   attendance.lecturer = lecturer;
   attendance.courseCode = courseCode;
   attendance.courseName = courseName;
   attendance.students = students;
+  
   const updatedAttendance = await attendance.save();
 
   res.json(`'${updatedAttendance.courseCode}' updated`);
@@ -118,12 +109,12 @@ const deleteAttendance = asyncHandler(async (req, res) => {
 
   const result = await attendance.deleteOne();
 
-  const reply = `Attendance '${result.courseCode}' with ID ${result._id} deleted`;
+  const reply = `Attendance with ID ${result._id} deleted`;
 
   res.json(reply);
 });
 
-module.exports = {
+export default {
   getAllAttendances,
   createNewAttendance,
   updateAttendance,

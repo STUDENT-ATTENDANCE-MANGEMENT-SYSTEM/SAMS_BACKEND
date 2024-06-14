@@ -1,6 +1,7 @@
-const Student = require("../models/Student");
-const asyncHandler = require("express-async-handler");
-const bcrypt = require("bcrypt");
+import mongoose from "mongoose";
+import Student from "../models/Student.js";
+import asyncHandler from "express-async-handler";
+import bcrypt from "bcrypt";
 
 const getAllStudents = asyncHandler(async (req, res) => {
   const student = await Student.find().select("-password").lean();
@@ -12,8 +13,24 @@ const getAllStudents = asyncHandler(async (req, res) => {
   res.json(student);
 });
 
+const getStudentById = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Student not found' });
+    }
+
+    res.json(student);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+
+
 const createNewStudent = asyncHandler(async (req, res) => {
-  const { firstname, lastname, email, password, institution } = req.body;
+  const { firstname, lastname, email, password, institution, pic} = req.body;
 
   if (!firstname || !lastname || !email || !password || !institution) {
     return res.status(400).json({ message: "All fields are required" });
@@ -35,6 +52,7 @@ const createNewStudent = asyncHandler(async (req, res) => {
     email,
     password: hashedPwd,
     institution,
+    pic
   };
 
   const student = await Student.create(studentObject);
@@ -47,7 +65,28 @@ const createNewStudent = asyncHandler(async (req, res) => {
     res.status(400).json({ message: "Invalid student data received" });
   }
 });
+const updatePin = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const { pin } = req.body;
+ 
+  if (!id || !pin) {
+    return res.status(400).json({ message: "Both id and pin are required" });
+  }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid id' });
+  }
+  const student = await Student.findByIdAndUpdate(
+    id, // find a document with this id
+    { pin }, // add pin to the document
+    { new: true } // options
+  );
 
+  if (!student) {
+    return res.status(404).json({ message: `Student with id ${id} not found` });
+  }
+
+  res.json(student);
+});
 const updateStudent = asyncHandler(async (req, res) => {
   const { id, firstname, lastname, email, password, institution } = req.body;
 
@@ -103,10 +142,11 @@ const deleteStudent = asyncHandler(async (req, res) => {
 
   res.json(reply);
 });
-
-module.exports = {
+export default {
   getAllStudents,
   createNewStudent,
+  getStudentById,
   updateStudent,
   deleteStudent,
+  updatePin
 };

@@ -1,12 +1,22 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const lecturerController = require("../controllers/lecturerController");
+import lecturerController from "../controllers/lecturerController.js";
+import verifyJwt from "../middleware/verifyJwt.js";
 
+router.use(verifyJwt);
 router
   .route("/")
   .get(lecturerController.getAllLecturers)
   .post(lecturerController.createNewLecturer)
   .patch(lecturerController.updateLecturer)
   .delete(lecturerController.deleteLecturer);
+  
 
-module.exports = router;
+router
+.route("/lecturer/:id")
+.get(lecturerController.getLecturerById)
+
+router
+  .route("/addUniversityCode/:id")
+  .patch(lecturerController.updateCode);
+export default router;

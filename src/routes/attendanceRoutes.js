@@ -1,11 +1,12 @@
-const express = require('express')
-const router = express.Router()
-const attendanceController = require('../controllers/attendanceController')
+import express from 'express';
+import attendanceController from '../controllers/attendanceController.js';
+
+const router = express.Router();
 
 router.route('/')
     .get(attendanceController.getAllAttendances)
     .post(attendanceController.createNewAttendance)
     .patch(attendanceController.updateAttendance)
-    .delete(attendanceController.deleteAttendance)
+    .delete(attendanceController.deleteAttendance);
 
-module.exports = router
+export default router;

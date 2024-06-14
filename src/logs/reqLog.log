@@ -186,3 +186,12 @@
 20240508	12:29:49	734992a3-7d9c-4574-9465-52c39b1ae151	GET	/register/lecturers	http://localhost:5173
 20240508	12:30:51	be686d86-b637-426c-b6a3-57af2ee1fa24	GET	/register/lecturers	http://localhost:5173
 20240508	12:32:13	b8657784-9dc3-47b1-95cc-0504b37c5888	GET	/register/lecturers	http://localhost:5173
+20240508	12:33:14	731e551e-6466-4cea-9459-654af0c959d0	GET	/register/lecturers	http://localhost:5173
+20240508	12:34:15	69db5dac-f190-4f58-a159-2fff6e019f32	GET	/register/lecturers	http://localhost:5173
+20240508	12:35:16	3ccee9d3-70a1-4262-99b0-7e2e65c50cd4	GET	/register/lecturers	http://localhost:5173
+20240508	12:36:17	039f6d9e-810b-4471-86a6-dd11aea58b79	GET	/register/lecturers	http://localhost:5173
+20240508	12:37:18	8e3e161c-cd12-4fac-8f86-f305c54ad318	GET	/register/lecturers	http://localhost:5173
+20240511	05:40:03	472e7569-c338-4c3c-9002-a9c5fac2c61b	GET	/attendanceTab	undefined
+20240511	05:40:32	2116ccab-cae6-4460-86bd-416fc7a8a036	GET	/attendanceTab	undefined
+20240511	05:40:37	1748d8f8-e673-4eda-971d-ebe72c2b7bfb	POST	/attendanceTab	undefined
+20240511	05:40:42	eb19f236-2412-4a81-b5e9-76485371f42f	GET	/attendanceTab	undefined
