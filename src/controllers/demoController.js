@@ -3,10 +3,10 @@ import asyncHandler from "express-async-handler";
 
 const createDemo = asyncHandler(async (req, res) => {
   try {
-    const { name, email, telephone, response } = req.body;
+    const { name, email, telephone, message } = req.body;
     
     // Create a new demo document
-    const newDemo = await Demo.create({ name, email, telephone, response });
+    const newDemo = await Demo.create({ name, email, telephone, message });
     
     // Send success response
     res.status(201).json(newDemo);

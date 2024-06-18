@@ -16,7 +16,7 @@ const demoSchema = new mongoose.Schema({
     required: true,
   },
   
-  response: {
+  message: {
     type: String,
   }
 });
