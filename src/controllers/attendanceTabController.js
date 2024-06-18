@@ -59,7 +59,16 @@ const getAttendanceTabByStudentId = asyncHandler(async (req, res) => {
       .json({ message: "No attendanceTabs found for this student ID" });
   }
 
-  res.json(attendanceTabs);
+  const attendanceTabsWithLecturer = await Promise.all(
+    attendanceTabs.map(async (attendanceTab) => {
+      const lecturer = await Lecturer.findById(attendanceTab.lecturerId)
+        .lean()
+        .exec();
+      return { ...attendanceTab, lecturerName: lecturer.lastname };
+    })
+  );
+
+  res.json(attendanceTabsWithLecturer);
 });
 const createNewAttendanceTab = asyncHandler(async (req, res) => {
   const { lecturerId, courseCode, courseName } = req.body;

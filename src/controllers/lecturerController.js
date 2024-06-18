@@ -61,7 +61,7 @@ const createNewLecturer = asyncHandler(async (req, res) => {
 
 const getLecturerById = async (req, res) => {
   try {
-    const lecturer = await Lecturer.findById(req.params.id);
+    const lecturer = await Lecturer.findById(req.params.lecturerId);
     if (!lecturer) {
       return res.status(404).json({ message: 'Lecturer not found' });
     }

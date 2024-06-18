@@ -18,4 +18,8 @@ router
 router
   .route("/addPin/:id")
   .patch(studentController.updatePin);
+
+  router
+  .route("/verify-pin")
+  .post(studentController.checkUserPinExists);
 export default router;

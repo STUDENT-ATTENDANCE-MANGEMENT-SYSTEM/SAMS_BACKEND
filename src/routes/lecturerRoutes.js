@@ -13,7 +13,7 @@ router
   
 
 router
-.route("/lecturer/:id")
+.route("/lecturer/:lecturerId")
 .get(lecturerController.getLecturerById)
 
 router

@@ -7,13 +7,12 @@ const studentSchema = new mongoose.Schema({
   },
   matricNumber: {
     type: String,
-    unique: true,
   },
   department: {
     type: String,
     required: true,
   },
-  student: {
+  studentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Student",
   },
@@ -21,11 +20,11 @@ const studentSchema = new mongoose.Schema({
 
 const attendanceSchema = new mongoose.Schema(
   {
-    lecturer: {
+    lecturerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Lecturer",
     },
-    attendance: {
+    attendanceTabId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "AttendanceTab"
     },

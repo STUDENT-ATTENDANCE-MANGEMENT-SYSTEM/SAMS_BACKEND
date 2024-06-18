@@ -3,7 +3,7 @@ const router = express.Router();
 import attendanceTabController from "../controllers/attendanceTabController.js";
 import verifyJwt from "../middleware/verifyJwt.js";
 
-router.use(verifyJwt);
+//router.use(verifyJwt);
 router
   .route("/")
   .get(attendanceTabController.getAllAttendanceTabs)

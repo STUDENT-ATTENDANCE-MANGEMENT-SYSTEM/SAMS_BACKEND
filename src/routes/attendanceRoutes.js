@@ -4,9 +4,19 @@ import attendanceController from '../controllers/attendanceController.js';
 const router = express.Router();
 
 router.route('/')
-    .get(attendanceController.getAllAttendances)
-    .post(attendanceController.createNewAttendance)
+    .post(attendanceController.createAttendance)
     .patch(attendanceController.updateAttendance)
-    .delete(attendanceController.deleteAttendance);
+    .delete(attendanceController.deleteAttendance)
 
+    
+
+    router.route('/student')
+    .patch(attendanceController.updateStudentAttendance)
+    .delete(attendanceController.deleteStudentFromAttendance)
+    
+    router.route('/:id')
+    .get(attendanceController.getSingleAttendanceById)
+
+    router.route('/:attendanceTabId/:lecturerId')
+    .get(attendanceController.getAllAttendances)
 export default router;
