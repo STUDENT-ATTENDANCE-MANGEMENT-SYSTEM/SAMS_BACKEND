@@ -14,7 +14,7 @@ import studentAuthRoutes from "./src/routes/studentAuthRoutes.js";
 import lecturerAuthRoutes from "./src/routes/lecturerAuthRoutes.js";
 import demoRoute from "./src/routes/demoRoute.js";
 const app = express();
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3500;
 dotenv.config();
 console.log(process.env.NODE_ENV);
 

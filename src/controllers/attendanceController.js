@@ -65,7 +65,7 @@ const createAttendance = asyncHandler(async (req, res) => {
     // Step 3: Update the AttendanceTab document with the new attendanceId
     await AttendanceTab.findOneAndUpdate(
       { _id: attendanceTabId }, // Find by attendanceTabId
-      { attendanceId: attendanceId }, // Set the new attendanceId
+      { $set: { attendanceId: attendanceId } }, // Set the new attendanceId
       { new: true } // Return the updated document
     );
 
