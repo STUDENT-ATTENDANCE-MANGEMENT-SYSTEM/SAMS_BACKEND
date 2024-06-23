@@ -70,7 +70,7 @@ const createAttendance = asyncHandler(async (req, res) => {
     // Step 3: Update the AttendanceTab document with the new attendanceId
     await AttendanceTab.findOneAndUpdate(
       { _id: attendanceTabId }, // Find by attendanceTabId
-      { $set: { attendanceId: attendanceId } }, // Set the new attendanceId
+      { $set: { attendanceId: attendanceId }, $inc: { noOfAttendance: 1 } }, // Set the new attendanceId
       { new: true } // Return the updated document
     );
 
@@ -161,27 +161,37 @@ const updateAttendance = asyncHandler(async (req, res) => {
 });
 
 const deleteAttendance = asyncHandler(async (req, res) => {
-  const { id } = req.body;
+  const { id, attendanceTabId } = req.body;
 
-  // Confirm data
+  // Validate request parameters
   if (!id) {
-    return res.status(400).json({ message: "Attendance ID required" });
+    return res.status(400).json({ error: "Attendance ID is required." });
   }
 
-  // Confirm attendance exists to delete
-  const attendance = await Attendance.findById(id).exec();
+  try {
+    // Check if the attendance record exists
+    const attendance = await Attendance.findById(id);
+    if (!attendance) {
+      return res.status(404).json({ error: "Attendance record not found." });
+    }
 
-  if (!attendance) {
-    return res.status(400).json({ message: "Attendance not found" });
+    // Delete the attendance record
+    await attendance.deleteOne();
+
+    // Decrement the noOfAttendance in the AttendanceTab document
+    await AttendanceTab.findOneAndUpdate(
+      { _id: attendanceTabId },
+      { $inc: { noOfAttendance: -1 } },
+      { new: true }
+    );
+
+    // Respond with success message
+    res.status(200).json({ message: "Attendance deleted successfully." });
+  } catch (error) {
+    // Handle potential errors
+    res.status(500).json({ error: "An error occurred while deleting the attendance record." });
   }
-
-  const result = await attendance.deleteOne();
-
-  const reply = `Attendance with ID ${result._id} deleted`;
-
-  res.json(reply);
 });
-
 const deleteStudentFromAttendance = asyncHandler(async (req, res) => {
   const { attendanceId, studentId } = req.body;
 
@@ -212,8 +222,59 @@ const deleteStudentFromAttendance = asyncHandler(async (req, res) => {
   } else {
     return res.status(404).json({ message: "Student not found in attendance" });
   }
+
+
 });
 
+const calculateAttendancePercentage = asyncHandler(async (req, res) => {
+    const { lecturerId, attendanceTabId } = req.body;
+try {
+
+  const attendanceTab = await AttendanceTab.findById(attendanceTabId);
+  const totalAttendance = attendanceTab.noOfAttendance;
+
+
+  const attendanceRecords = await Attendance.find({
+    lecturerId,
+    attendanceTabId,
+  });
+
+  let studentAttendanceCounts = {};
+
+attendanceRecords.forEach(record => {
+  record.students.forEach(student => {
+    let key = `${student.name}-${student.matricNumber}`;
+    if (!studentAttendanceCounts[key]) {
+      studentAttendanceCounts[key] = { count: 1, details: student };
+    } else {
+      studentAttendanceCounts[key].count++;
+    }
+  });
+});
+
+let studentAttendancePercentages = [];
+
+
+Object.keys(studentAttendanceCounts).forEach(key => {
+  let { count, details } = studentAttendanceCounts[key];
+  let percentage = (count / totalAttendance) * 100;
+  studentAttendancePercentages.push({
+    name: details.name,
+    matricNumber: details.matricNumber,
+    department: details.department,
+    percentage: percentage.toFixed(2) + '%',
+  });
+});
+
+res.status(200).send({
+  message: "Attendance percentages calculated successfully",
+  attendancePercentages: studentAttendancePercentages,
+});
+} catch (error) {
+  console.error("Error calculating attendance percentages:", error);
+  res.status(500).send({ message: "Failed to calculate attendance percentages" });
+}
+  })
 export default {
   getAllAttendances,
   getSingleAttendanceById,
@@ -222,4 +283,5 @@ export default {
   deleteAttendance,
   createAttendance,
   deleteStudentFromAttendance,
+  calculateAttendancePercentage,
 };

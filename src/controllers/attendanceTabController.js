@@ -64,7 +64,7 @@ const getAttendanceTabByStudentId = asyncHandler(async (req, res) => {
       const lecturer = await Lecturer.findById(attendanceTab.lecturerId)
         .lean()
         .exec();
-      return { ...attendanceTab, lecturerName: lecturer.lastname };
+      return { ...attendanceTab, lecturerName: lecturer.prefix + lecturer.lastname };
     })
   );
 

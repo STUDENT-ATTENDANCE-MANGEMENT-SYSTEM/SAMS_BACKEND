@@ -42,6 +42,10 @@ const attendanceTabSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Attendance"
     },
+    noOfAttendance:{
+      type: Number,
+      default: 0
+    }
   },
   { timestamps: true }
 );

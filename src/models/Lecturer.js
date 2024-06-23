@@ -31,6 +31,9 @@ const lecturerSchema = new mongoose.Schema({
     type: String,
     default: "Lecturer",
   },
+  prefix: {
+    type: String,
+  },
 });
 
 export default mongoose.model("Lecturer", lecturerSchema);

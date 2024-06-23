@@ -14,7 +14,7 @@ const getAllLecturers = asyncHandler(async (req, res) => {
 });
 
 const createNewLecturer = asyncHandler(async (req, res) => {
-  const { firstname, lastname, email, password, institution, pic} =
+  const { firstname, lastname, email, password, institution, pic, perfix} =
     req.body;
 
   if (
@@ -23,7 +23,8 @@ const createNewLecturer = asyncHandler(async (req, res) => {
     !email ||
     !password ||
     !institution ||
-    !pic
+    !pic ||
+    !perfix
   ) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -44,7 +45,8 @@ const createNewLecturer = asyncHandler(async (req, res) => {
     email,
     password: hashedPwd,
     institution,
-    pic
+    pic,
+    perfix,
   };
 
   const lecturer = await Lecturer.create(lecturerObject);
