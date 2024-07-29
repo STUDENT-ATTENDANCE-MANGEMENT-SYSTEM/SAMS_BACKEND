@@ -13,6 +13,7 @@ import attendanceTabRoutes from "./src/routes/attendanceTabRoutes.js";
 import studentAuthRoutes from "./src/routes/studentAuthRoutes.js";
 import lecturerAuthRoutes from "./src/routes/lecturerAuthRoutes.js";
 import demoRoute from "./src/routes/demoRoute.js";
+import timetableRoutes from "./src/routes/timetableRoutes.js"
 const app = express();
 const PORT = process.env.PORT || 3500;
 dotenv.config();
@@ -31,6 +32,7 @@ app.use("/attendanceTab", attendanceTabRoutes);
 app.use("/student", studentAuthRoutes)
 app.use("/lecturer", lecturerAuthRoutes)
 app.use("/demo", demoRoute)
+app.use("/timetable", timetableRoutes)
 app.use(errorHandler);
 
 app.listen(PORT, () => {

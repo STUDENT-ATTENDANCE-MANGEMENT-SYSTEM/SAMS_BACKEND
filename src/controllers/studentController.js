@@ -106,6 +106,25 @@ const checkUserPinExists = asyncHandler(async (req, res) => {
   }
 });
 
+
+const changeStudentPin = asyncHandler(async (req, res) => {
+  const { id, newPin } = req.body;
+  if (!id || !newPin) {
+    return res.status(400).json({ message: "Both id and newPin are required" });
+  }
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid id' });
+  }
+  const student = await Student.findById(id);
+  if (!student) {
+    return res.status(404).json({ message: `Student with id ${id} not found` });
+  }
+  // Assuming the pin is a field in the student document and can be directly updated
+  student.pin = newPin;
+  await student.save();
+  res.json({ message: "PIN changed successfully" });
+});
+
 const updateStudent = asyncHandler(async (req, res) => {
   const { id, firstname, lastname, email, password, institution } = req.body;
 
@@ -169,4 +188,5 @@ export default {
   deleteStudent,
   updatePin,
   checkUserPinExists,
+  changeStudentPin
 };
