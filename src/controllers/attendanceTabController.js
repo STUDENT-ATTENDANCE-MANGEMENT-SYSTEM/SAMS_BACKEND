@@ -3,6 +3,7 @@ import Lecturer from "../models/Lecturer.js";
 import asyncHandler from "express-async-handler";
 import { customAlphabet } from "nanoid";
 import Attendance from "../models/Attendance.js";
+import mongoose from "mongoose";
 const nanoid = customAlphabet("abcde123456789", 5);
 
 const getAllAttendanceTabs = asyncHandler(async (req, res) => {
@@ -254,9 +255,12 @@ const updateAttendanceTabLocation = async (req, res) => {
   }
 };
 const getNoOfAttendance = asyncHandler(async (req, res) => {
-  const { lecturerId, attendanceTabId } = req.body;
+  const { lecturerId} = req.params;
+  const {attendanceTabId } = req.body;
+  if (!mongoose.Types.ObjectId.isValid(lecturerId) || !mongoose.Types.ObjectId.isValid(attendanceTabId)) {
+    return res.status(400).json({ message: "Invalid lecturerId or attendanceTabId" });
+  }
 
-  // Confirm data
   if (!lecturerId || !attendanceTabId) {
     return res.status(400).json({ message: "Both lecturerId and attendanceTabId are required" });
   }
@@ -280,13 +284,16 @@ const getNoOfAttendance = asyncHandler(async (req, res) => {
 
 
 const getAverageNumberOfStudents = asyncHandler(async (req, res) => {
-  const { lecturerId, attendanceTabId } = req.body;
+  const { lecturerId} = req.params;
+  const {attendanceTabId } = req.body;
 
   // Confirm data
   if (!lecturerId || !attendanceTabId) {
     return res.status(400).json({ message: "Both lecturerId and attendanceTabId are required" });
   }
-
+  if (!mongoose.Types.ObjectId.isValid(lecturerId) || !mongoose.Types.ObjectId.isValid(attendanceTabId)) {
+    return res.status(400).json({ message: "Invalid lecturerId or attendanceTabId" });
+  }
   // Query the database for attendances created by the lecturer and for the specific tab
   const attendances = await Attendance.find({
     lecturerId: lecturerId,
@@ -309,10 +316,15 @@ const getAverageNumberOfStudents = asyncHandler(async (req, res) => {
 });
 
 const getStudentsArrayLength = asyncHandler(async (req, res) => {
-  const { lecturerId, attendanceTabId } = req.body;
+  const { lecturerId} = req.params;
+  const {attendanceTabId } = req.body;
 
+  // Confirm data
   if (!lecturerId || !attendanceTabId) {
     return res.status(400).json({ message: "Both lecturerId and attendanceTabId are required" });
+  }
+  if (!mongoose.Types.ObjectId.isValid(lecturerId) || !mongoose.Types.ObjectId.isValid(attendanceTabId)) {
+    return res.status(400).json({ message: "Invalid lecturerId or attendanceTabId" });
   }
 
   const attendances = await Attendance.find({
@@ -332,11 +344,16 @@ const getStudentsArrayLength = asyncHandler(async (req, res) => {
 
 const getStudentsArray = async (req, res) => {
   try {
-    const { lecturerId, attendanceTabId } = req.query; // or req.body, depending on your API design
+    const { lecturerId} = req.params;
+  const {attendanceTabId } = req.body;
 
-    if (!lecturerId || !attendanceTabId) {
-      return res.status(400).send({ message: "lecturerId and attendanceTabId are required" });
-    }
+  // Confirm data
+  if (!lecturerId || !attendanceTabId) {
+    return res.status(400).json({ message: "Both lecturerId and attendanceTabId are required" });
+  }
+  if (!mongoose.Types.ObjectId.isValid(lecturerId) || !mongoose.Types.ObjectId.isValid(attendanceTabId)) {
+    return res.status(400).json({ message: "Invalid lecturerId or attendanceTabId" });
+  }
 
     // Assuming you have a model named AttendanceTab that refers to your attendance tabs
     const attendanceTab = await AttendanceTab.findOne({
@@ -350,10 +367,7 @@ const getStudentsArray = async (req, res) => {
 
     const studentsArrayLength = attendanceTab.students.length;
 
-    res.status(200).send({
-      message: "Students array length retrieved successfully",
-      studentsArrayLength: studentsArrayLength,
-    });
+    res.json({ studentsArrayLength });
   } catch (error) {
     console.error("Error retrieving students array length:", error);
     res.status(500).send({ message: "Failed to retrieve students array length" });
@@ -362,14 +376,22 @@ const getStudentsArray = async (req, res) => {
 
 
 const getWeeklyStudentsArrayLength = asyncHandler(async (req, res) => {
-  const { lecturerId, attendanceTabId } = req.body;
+  const { lecturerId} = req.params;
+  const {attendanceTabId } = req.body;
+
+  // Confirm data
+  if (!lecturerId || !attendanceTabId) {
+    return res.status(400).json({ message: "Both lecturerId and attendanceTabId are required" });
+  }
+  if (!mongoose.Types.ObjectId.isValid(lecturerId) || !mongoose.Types.ObjectId.isValid(attendanceTabId)) {
+    return res.status(400).json({ message: "Invalid lecturerId or attendanceTabId" });
+  }
+  
   const now = new Date();
   const firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
   const lastDayOfWeek = new Date(now.setDate(firstDayOfWeek.getDate() + 6));
 
-  if (!lecturerId || !attendanceTabId) {
-    return res.status(400).json({ message: "Both lecturerId and attendanceTabId are required" });
-  }
+  
 
   const weeklyAttendances = await Attendance.find({
     lecturerId: lecturerId,
@@ -387,14 +409,21 @@ const getWeeklyStudentsArrayLength = asyncHandler(async (req, res) => {
 });
 
 const getMonthlyStudentsArrayLength = asyncHandler(async (req, res) => {
-  const { lecturerId, attendanceTabId } = req.body;
+  const { lecturerId} = req.params;
+  const {attendanceTabId } = req.body;
+
+  // Confirm data
+  if (!lecturerId || !attendanceTabId) {
+    return res.status(400).json({ message: "Both lecturerId and attendanceTabId are required" });
+  }
+  if (!mongoose.Types.ObjectId.isValid(lecturerId) || !mongoose.Types.ObjectId.isValid(attendanceTabId)) {
+    return res.status(400).json({ message: "Invalid lecturerId or attendanceTabId" });
+  }
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
-  if (!lecturerId || !attendanceTabId) {
-    return res.status(400).json({ message: "Both lecturerId and attendanceTabId are required" });
-  }
+  
 
   const monthlyAttendances = await Attendance.find({
     lecturerId: lecturerId,

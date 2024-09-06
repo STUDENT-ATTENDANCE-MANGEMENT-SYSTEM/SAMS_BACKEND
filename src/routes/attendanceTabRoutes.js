@@ -26,4 +26,23 @@ router
   router
   .route('/toggleOpen')
   .patch(attendanceTabController.toggleOpenAttendanceTab)
+
+  router
+  .route('/:lecturerId/insight/getNoOfAttendance')
+  .post(attendanceTabController.getNoOfAttendance)
+
+  router
+  .route('/:lecturerId/insight/getStudentsArray')
+  .post(attendanceTabController.getStudentsArray)
+
+  router
+  .route('/:lecturerId/insight/getAverageNumberOfStudents')
+  .post(attendanceTabController.getAverageNumberOfStudents)
+
+  
+  router
+  .route('/:lecturerId/insight/getStudentsArrayLength')
+  .post(attendanceTabController.getStudentsArrayLength)
+  
 export default router;
+
