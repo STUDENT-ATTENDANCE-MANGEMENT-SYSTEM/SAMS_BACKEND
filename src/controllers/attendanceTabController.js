@@ -156,7 +156,6 @@ const updateAttendanceTab = asyncHandler(async (req, res) => {
       .json({ message: "Both ID and attendanceCode are required" });
   }
 
-  // Find the attendanceTab with the given attendance
   const attendanceTab = await AttendanceTab.findOne({ attendanceCode });
 
   // If no attendanceTab was found
@@ -184,7 +183,7 @@ const toggleOpenAttendanceTab = async (req, res) => {
       return res.status(400).json({ message: "AttendanceTab ID required" });
     }
   
-    // Confirm attendanceTab exists to delete
+    
     const attendanceTab = await AttendanceTab.findById(id).exec();
   
     if (!attendanceTab) {
